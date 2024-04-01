@@ -1,0 +1,21 @@
+{
+  "name": "api_miragegroup_4sem_back",
+  "version": "1.0.0",
+  "description": "Repositório para o backend do projeto de API do 4º semestre do curso de ADS da FATEC SJC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.3"
+  }
+}
