@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "typeorm:run-migrations": "npm run typeorm migration:run -- -d ./src/infra/data-source.ts",
+    "typeorm:generate-migration": "npm run typeorm -- -d ./src/infra/data-source.ts migration:generate ./src/infra/migrations/$npm_config_name",
+    "typeorm:create-migration": "npm run typeorm -- migration:create ./src/infra/migrations/$npm_config_name",
+    "typeorm:revert-migration": "npm run typeorm -- -d ./src/infra/data-source.ts migration:revert"
   },
   "keywords": [],
   "author": "",
