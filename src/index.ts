@@ -1,4 +1,5 @@
 import Express, { Request, Response } from 'express';
+import user from './routes/user.routes';
 import appDataSource from "./infra/data-source";
 
 const app = Express()
@@ -15,3 +16,5 @@ appDataSource.initialize().then(() => {
 app.get('/', async (req, res) => {
     res.send("Hello World!")
 })
+
+app.use('/user', user)
