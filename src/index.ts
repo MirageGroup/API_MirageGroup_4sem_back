@@ -1,9 +1,11 @@
-import Express, { Request, Response } from 'express';
-import user from './routes/user.routes';
+import Express from 'express';
+import userRouter from './routes/user.routes';
 import appDataSource from "./infra/data-source";
 
 const app = Express()
 require('dotenv').config()
+
+app.use(Express.json())
 
 appDataSource.initialize().then(() => {
     console.log("Database initialized");
@@ -17,4 +19,4 @@ app.get('/', async (req, res) => {
     res.send("Hello World!")
 })
 
-app.use('/user', user)
+app.use('/user', userRouter)

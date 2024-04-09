@@ -9,17 +9,18 @@ export class User {
     @Column()
     name!: string;
 
-    @Column()
+    @Column({ unique: true })
     email!: string;
 
     @Column()
+    password!: string;
+    
+    @Column()
     role!: number;
 
-    @Column({ name: 'access_level' })
-    accessLevel!: number;
-
     @Column()
-    password!: string;
+    access_level!: number;
+
 
     @ManyToMany(() => Meeting)
     @JoinTable({
