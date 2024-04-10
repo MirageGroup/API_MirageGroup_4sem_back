@@ -1,6 +1,9 @@
 import Express from 'express';
 import userRouter from './routes/user.routes';
 import appDataSource from "./infra/data-source";
+import { PhysicalRoomRouter, VirtualRoomRouter } from './routes/room.routes';
+
+
 
 const app = Express()
 require('dotenv').config()
@@ -20,3 +23,5 @@ app.get('/', async (req, res) => {
 })
 
 app.use('/user', userRouter)
+app.use('/physicalRoom', PhysicalRoomRouter)
+app.use('/virtualRoom', VirtualRoomRouter)
