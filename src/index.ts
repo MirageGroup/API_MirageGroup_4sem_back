@@ -3,14 +3,17 @@ import userRouter from './routes/user.routes';
 import appDataSource from "./infra/data-source";
 import { PhysicalRoomRouter, VirtualRoomRouter } from './routes/room.routes';
 import cookieParser from 'cookie-parser';
-
-
+import cors from 'cors';
 
 const app = Express()
 require('dotenv').config()
 
 app.use(Express.json())
 app.use(cookieParser())
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
 
 appDataSource.initialize().then(() => {
     console.log("Database initialized");

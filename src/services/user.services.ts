@@ -23,13 +23,13 @@ export class UserServices {
         return await this.userRepository.save(user)
     }
 
-    public async login(user: User, password: string): Promise<boolean> {        
+    public async login(user: User, password: string): Promise<boolean> {       
         return await bcrypt.compare(password, user.password)
     }
 
     public async validation(user: User) {
         const token = jwt.sign({
-                id: user.id
+                userId: user.id
             },
             process.env.SECRET_KEY ?? '',
             {
