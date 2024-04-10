@@ -13,4 +13,8 @@ userRouter.post('/create', async (req, res) => {
     await controller.createUserController(req, res)
 })
 
+userRouter.post('/login', async (req, res) => {
+    await controller.loginController(req, res)
+})
+
 export default userRouter

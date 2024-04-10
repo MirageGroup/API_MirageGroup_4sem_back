@@ -2,6 +2,7 @@ import Express from 'express';
 import userRouter from './routes/user.routes';
 import appDataSource from "./infra/data-source";
 import { PhysicalRoomRouter, VirtualRoomRouter } from './routes/room.routes';
+import cookieParser from 'cookie-parser';
 
 
 
@@ -9,6 +10,7 @@ const app = Express()
 require('dotenv').config()
 
 app.use(Express.json())
+app.use(cookieParser())
 
 appDataSource.initialize().then(() => {
     console.log("Database initialized");
