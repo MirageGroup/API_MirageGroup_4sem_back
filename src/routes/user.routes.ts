@@ -3,6 +3,7 @@ import { UserController } from '../controllers/user.controller';
 import appDataSource from '../infra/data-source';
 import { User } from '../infra/entities/user.entity';
 import { Router } from "express";
+import auth from '../middlewares/auth';
 
 const userRouter = Router()
 
@@ -15,6 +16,10 @@ userRouter.post('/create', async (req, res) => {
 
 userRouter.post('/login', async (req, res) => {
     await controller.loginController(req, res)
+})
+
+userRouter.get('/getprofile', auth, async (req, res) => {
+    controller.getProfileController(req, res)
 })
 
 export default userRouter

@@ -1,4 +1,4 @@
-import Express from 'express';
+import Express, { NextFunction, Request, Response } from "express";
 import userRouter from './routes/user.routes';
 import appDataSource from "./infra/data-source";
 import { PhysicalRoomRouter, VirtualRoomRouter } from './routes/room.routes';
@@ -14,6 +14,9 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }))
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+
+})
 
 appDataSource.initialize().then(() => {
     console.log("Database initialized");

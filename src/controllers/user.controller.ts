@@ -33,8 +33,9 @@ export class UserController {
             const login = await this.userServices.login(user, password)
 
             if(!login) return res.sendStatus(400)
-            const validation = await this.userServices.validation(user)
-            return res.status(200).cookie("access_token", validation.token, {}).send()
+            const validation = await this.userServices.createToken(user)
+            return res.status(200).cookie("access_token", validation.token, {
+            }).send()
         }catch(error){
             console.error(error);
             if(error instanceof EntityNotFoundError){
@@ -42,5 +43,9 @@ export class UserController {
             }
             return res.status(500).send(error)
         }
+    }
+
+    public async getProfileController(req: Request, res: Response){
+        return res.send(req.user)
     }
 }

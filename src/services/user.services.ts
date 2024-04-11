@@ -18,6 +18,15 @@ export class UserServices {
         }
     }
 
+    public async getUserById(id: number): Promise<User> {
+        const user = await this.userRepository.findOne({ where: { id: id } })
+        if(!user){
+            throw new EntityNotFoundError('user', id)
+        }else{
+            return user
+        }
+    }
+
     public async createUser(user: User): Promise<User | null> {
         user.password = await bcrypt.hash(user.password, 10)
         return await this.userRepository.save(user)
@@ -27,7 +36,7 @@ export class UserServices {
         return await bcrypt.compare(password, user.password)
     }
 
-    public async validation(user: User) {
+    public async createToken(user: User) {
         const token = jwt.sign({
                 userId: user.id
             },
