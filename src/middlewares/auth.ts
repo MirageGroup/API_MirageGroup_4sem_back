@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { EntityNotFoundError } from "typeorm";
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import appDataSource from "../infra/data-source";
 import { User } from "../infra/entities/user.entity";
 import { UserServices } from "../services/user.services";
@@ -28,6 +28,9 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
         console.error(error)
         if(error instanceof EntityNotFoundError){
             return res.sendStatus(404)
+        }
+        if(error instanceof JsonWebTokenError){
+            return res.status(403).send(error.message)
         }
         return res.status(500).send(error)
     }
