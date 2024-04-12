@@ -1,10 +1,10 @@
 import Express, { NextFunction, Request, Response } from "express";
 import userRouter from './routes/user.routes';
 import appDataSource from "./infra/data-source";
+import { Migration } from "typeorm";
 import { PhysicalRoomRouter, VirtualRoomRouter } from './routes/room.routes';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-
 const app = Express()
 require('dotenv').config()
 
@@ -18,8 +18,9 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 })
 
-appDataSource.initialize().then(() => {
-    console.log("Database initialized");
+appDataSource.initialize().then((connection) => {
+    console.log("Database initialized")
+    connection.runMigrations()
     app.listen(process.env.PORT, () => {
         console.log(`Server running on http://localhost:${process.env.PORT}`)
     })
