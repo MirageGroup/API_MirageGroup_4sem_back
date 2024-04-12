@@ -12,7 +12,7 @@ export class UserServices {
     public async getUserByEmail(email: string): Promise<User> {
         const user = await this.userRepository.findOne({ where: { email: email } })
         if(!user){
-            throw new EntityNotFoundError('user', email)
+            throw new EntityNotFoundError('user', 'email = ' + email)
         }else{
             return user
         }

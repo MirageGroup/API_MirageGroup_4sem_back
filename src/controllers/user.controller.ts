@@ -34,8 +34,7 @@ export class UserController {
 
             if(!login) return res.sendStatus(400)
             const validation = await this.userServices.createToken(user)
-            return res.status(200).cookie("access_token", validation.token, {
-            }).send()
+            return res.status(200).send({ token: validation.token })
         }catch(error){
             console.error(error);
             if(error instanceof EntityNotFoundError){
