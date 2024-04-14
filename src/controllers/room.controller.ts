@@ -56,8 +56,12 @@ export class VirtualRoomController{
     ){}
 
     public async createRoomController(req: Request, res: Response){
-        const { login, password, access_level } = req.body
-        if(!login || !password || !access_level ) return res.sendStatus(400)
+        const { login, password, accessLevel } = req.body
+        console.log('req.body virtual room',req.body)
+        console.log('login virtual room',login)
+        console.log('password virtual room',password)
+        console.log('access_level virtual room',accessLevel)
+        if(!login || !password || !accessLevel ) return res.sendStatus(400)
 
         try{
             await this.virtualroomServices.createRoom(req.body)

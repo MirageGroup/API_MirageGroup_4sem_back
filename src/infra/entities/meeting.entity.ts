@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
 import { PhysicalRoom, VirtualRoom } from './room.entity';
 
@@ -25,5 +25,10 @@ export class Meeting {
     virtualRoom!: VirtualRoom;
 
     @ManyToMany(() => User)
+    @JoinTable({
+        name: 'meeting_user',
+        joinColumn: { name: 'meeting_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' }
+    })
     participants!: User[];
 }

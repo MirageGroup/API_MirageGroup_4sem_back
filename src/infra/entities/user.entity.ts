@@ -24,7 +24,7 @@ export class User {
 
     @ManyToMany(() => Meeting)
     @JoinTable({
-        name: 'participates',
+        name: 'user_meeting',
         joinColumn: { name: 'user_id', referencedColumnName: 'id' },
         inverseJoinColumn: { name: 'meeting_id', referencedColumnName: 'id' }
     })

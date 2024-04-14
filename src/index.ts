@@ -1,12 +1,16 @@
 import Express, { NextFunction, Request, Response } from "express";
 import userRouter from './routes/user.routes';
 import appDataSource from "./infra/data-source";
-import { Migration } from "typeorm";
 import { PhysicalRoomRouter, VirtualRoomRouter } from './routes/room.routes';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
-const app = Express()
+import MeetingRouter from './routes/meeting.routes';
+
 require('dotenv').config()
+const app = Express()
+
+
+const cors = require("cors");
+
 
 app.use(Express.json())
 app.use(cookieParser())
@@ -34,3 +38,5 @@ app.get('/', async (req, res) => {
 app.use('/user', userRouter)
 app.use('/physicalRoom', PhysicalRoomRouter)
 app.use('/virtualRoom', VirtualRoomRouter)
+app.use('/meeting', MeetingRouter)
+
