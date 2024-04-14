@@ -44,6 +44,11 @@ export class UserController {
         }
     }
 
+    public async getAllUsersController(req: Request, res: Response){
+        const users = await this.userServices.getAllUsers()
+        return res.status(200).send(users)
+    }
+
     public async getProfileController(req: Request, res: Response){
         return res.send(req.user)
     }

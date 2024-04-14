@@ -18,6 +18,10 @@ userRouter.post('/login', async (req, res) => {
     await controller.loginController(req, res)
 })
 
+userRouter.get('/fetchall', async (req, res) => {
+    await controller.getAllUsersController(req, res)
+})
+
 userRouter.get('/getprofile', auth, async (req, res) => {
     controller.getProfileController(req, res)
 })
