@@ -16,7 +16,7 @@ export class User {
     password!: string;
     
     @Column()
-    role!: number;
+    role!: string;
 
     @Column()
     access_level!: number;
