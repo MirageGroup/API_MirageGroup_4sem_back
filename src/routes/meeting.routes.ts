@@ -23,7 +23,7 @@ MeetingRouter.get('/get', async (req, res) => {
     await controller.getAllMeetingsController(req, res)
 })
 
-MeetingRouter.get('/getById', async (req, res) => {
+MeetingRouter.get('/get/:id', async (req, res) => {
     await controller.getMeetingController(req, res)
 })
 
