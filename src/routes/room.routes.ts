@@ -24,7 +24,7 @@ PhysicalRoomRouter.get('/get', async (req, res) => {
     await controller.getAllRoomsController(req, res)
 })
 
-PhysicalRoomRouter.get('/getById', async (req, res) => {
+PhysicalRoomRouter.get('/get/:id', async (req, res) => {
     await controller.getRoomController(req, res)
 })
 
