@@ -31,4 +31,11 @@ export class Meeting {
         inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' }
     })
     participants!: User[];
+
+    @Column({ type: 'simple-array', nullable: true })
+    meetingTheme?: string[];
+
+    setMeetingThemesFromString(themes: string) {
+        this.meetingTheme = themes.split(',').map(theme => theme.trim());
+    }
 }
