@@ -38,7 +38,7 @@ export class UserServices {
         return await this.userRepository.save(user)
     }
 
-    public async login(user: User, password: string): Promise<boolean> {       
+    public async login(user: User, password: string): Promise<boolean> {    
         return await bcrypt.compare(password, user.password)
     }
 
@@ -58,5 +58,13 @@ export class UserServices {
             user: userLogin,
             token: token
         }
+    }
+
+    public async updateUser(id:number,user: User) {
+        return await this.userRepository.update(id, user)
+    }
+
+    public async deleteUser(id: number) {
+        return await this.userRepository.delete(id)
     }
 }

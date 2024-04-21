@@ -50,6 +50,33 @@ export class UserController {
     }
 
     public async getProfileController(req: Request, res: Response){
+        console.log(req)
         return res.send(req.user)
+    }
+
+    
+
+    public async updateUserController(req: Request, res: Response){
+        const { name, email, password, role, access_level } = req.body
+        if(!name || !email || !password || !role || !access_level) return res.sendStatus(400)
+        const id = Number(req.body.id)
+        try{
+            await this.userServices.updateUser(id, req.body)
+            res.sendStatus(200)
+        }catch(error){
+            console.error(error)
+            return res.status(500).send(error)
+        }
+    }
+
+    public async deleteUserController(req: Request, res: Response){
+        const id = Number(req.body.id)
+        try{
+            await this.userServices.deleteUser(id)
+            res.sendStatus(200)
+        }catch(error){
+            console.error(error)
+            return res.status(500).send(error)
+        }
     }
 }

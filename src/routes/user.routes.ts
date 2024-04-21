@@ -26,4 +26,14 @@ userRouter.get('/getprofile', auth, async (req, res) => {
     controller.getProfileController(req, res)
 })
 
+
+
+userRouter.patch('/update', auth, async (req, res) => {
+    controller.updateUserController(req, res)
+})
+
+userRouter.delete('/delete', auth, async (req, res) => {
+    controller.deleteUserController(req, res)
+})
+
 export default userRouter
