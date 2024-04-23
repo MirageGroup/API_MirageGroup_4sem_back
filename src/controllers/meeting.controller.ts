@@ -56,18 +56,35 @@ export class MeetingController{
     }
 
     public async deleteMeetingController(req: Request, res: Response){
-        console.log("Req.body",req.body)
         const id = req.body.id
-        console.log(id,req.params)
         await this.meetingServices.deleteMeeting(id)
         return res.sendStatus(204)
     }
 
     public async updateMeetingController(req: Request, res: Response){
-        const id = Number(req.params.id)
-        const room = req.body
-        await this.meetingServices.updateMeeting(room,id)
-        return res.sendStatus(204)
+        const id = Number(req.params.id);
+        const meetingData = req.body;
+        const { participants, ...meetingInfo } = meetingData;
+    
+        try {
+            await this.meetingServices.updateMeeting(meetingInfo, id);
+    
+            if (participants && participants.length > 0) {
+                const meeting = await this.meetingServices.findOneOrFail(id);
+    
+                if (!meeting) {
+                    throw new Error('Reunião não encontrada');
+                }
+    
+                meeting.participants = participants;
+                await this.meetingServices.createMeeting(meeting);
+            }
+    
+            return res.sendStatus(204);
+        } catch (error) {
+            console.error('Erro ao atualizar reunião:', error);
+            return res.status(500).send('Erro ao atualizar reunião.');
+        }
     }
 
 }

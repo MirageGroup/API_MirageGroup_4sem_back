@@ -11,6 +11,9 @@ export class Meeting {
     protocol!: string;
 
     @Column()
+    description!: string;
+
+    @Column()
     datetime!: Date;
 
     @Column({ name: 'meeting_type' })

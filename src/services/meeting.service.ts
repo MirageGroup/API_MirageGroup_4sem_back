@@ -9,12 +9,11 @@ export class MeetingServices {
     ){}
 
     public async createMeeting(meeting: Meeting){
-        console.log(meeting)
         return await this.meetingRepository.save(meeting)
     }
 
     public async getMeeting(id:number){
-        return await this.meetingRepository.findOneBy({id})
+        return await this.meetingRepository.findOne({relations: ["participants","physicalRoom","virtualRoom"],where: {id: id}})
     }
 
     public async getAllMeetings(){
@@ -22,11 +21,14 @@ export class MeetingServices {
     }
 
     public async deleteMeeting(id: number){
-        console.log('DELETAR',id)
         await this.meetingRepository.delete(id)
     }
 
     public async updateMeeting(meeting: Meeting, id: number){
-        return await this.meetingRepository.save(meeting)
+        return await this.meetingRepository.update(id,meeting)
+    }
+
+    public async findOneOrFail (id: number){
+        return await this.meetingRepository.findOneOrFail({relations: ["participants","physicalRoom","virtualRoom"],where: {id: id}})
     }
 }

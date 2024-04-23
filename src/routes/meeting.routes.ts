@@ -32,7 +32,7 @@ MeetingRouter.delete('/delete', async (req, res) => {
     await controller.deleteMeetingController(req, res)
 })
 
-MeetingRouter.patch('/update', async (req, res) => {
+MeetingRouter.patch('/update/:id', async (req, res) => {
     await controller.updateMeetingController(req, res)
 })
 
