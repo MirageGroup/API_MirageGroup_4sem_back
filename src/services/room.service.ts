@@ -9,7 +9,6 @@ export class PhysicalRoomServices {
     ){}
 
     public async createRoom(room: PhysicalRoom){
-        console.log(room)
         return await this.physicalRoomRepository.save(room)
     }
 
@@ -22,12 +21,10 @@ export class PhysicalRoomServices {
     }
 
     public async deleteRoom(id: number){
-        console.log(id)
         await this.physicalRoomRepository.delete(id)
     }
 
     public async updateRoom(room: PhysicalRoom, id: number){
-        console.log(id,room)
         return await this.physicalRoomRepository.save(room)
     }
 }

@@ -50,7 +50,6 @@ export class UserController {
     }
 
     public async getProfileController(req: Request, res: Response){
-        console.log(req)
         return res.send(req.user)
     }
 

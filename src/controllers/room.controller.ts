@@ -9,8 +9,7 @@ export class PhysicalRoomController{
     ){}
 
     public async createRoomController(req: Request, res: Response){
-        const { occupancy, location, accessLevel } = req.body
-        console.log(req.body)
+        const { occupancy, location, accessLevel, } = req.body
         if(!occupancy || !location || !accessLevel ) return res.sendStatus(400)
 
         try{
@@ -37,7 +36,6 @@ export class PhysicalRoomController{
 
     public async deleteRoomController(req: Request, res: Response){
         const id = Number(req.body.id)
-        console.log(id,req.params)
         await this.physicalroomServices.deleteRoom(id)
         return res.sendStatus(204)
     }
@@ -57,10 +55,6 @@ export class VirtualRoomController{
 
     public async createRoomController(req: Request, res: Response){
         const { login, password, accessLevel } = req.body
-        console.log('req.body virtual room',req.body)
-        console.log('login virtual room',login)
-        console.log('password virtual room',password)
-        console.log('access_level virtual room',accessLevel)
         if(!login || !password || !accessLevel ) return res.sendStatus(400)
 
         try{
@@ -86,7 +80,7 @@ export class VirtualRoomController{
     }
 
     public async deleteRoomController(req: Request, res: Response){
-        const id = Number(req.params.id)
+        const id = Number(req.body.id)
         await this.virtualroomServices.deleteRoom(id)
         return res.sendStatus(204)
     }

@@ -29,7 +29,6 @@ PhysicalRoomRouter.get('/get/:id', async (req, res) => {
 })
 
 PhysicalRoomRouter.delete('/delete', async (req, res) => {
-    console.log(req.body)
     await controller.deleteRoomController(req, res)
 })
 
