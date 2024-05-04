@@ -5,6 +5,12 @@ export class PhysicalRoom {
     @PrimaryGeneratedColumn()
     id!: number;
 
+    @Column({ name: 'virtual_room_name' })
+    name!: string;
+
+    @Column ({ name: 'physical_room_description' })
+    description!: string;
+    
     @Column()
     occupancy!: number;
 
@@ -14,11 +20,6 @@ export class PhysicalRoom {
     @Column({ name: 'access_level' })
     accessLevel!: number;
 
-    @Column({ name: 'virtual_room_name' })
-    name!: string;
-
-    @Column ({ name: 'physical_room_description' })
-    description!: string;
 }
 
 @Entity()

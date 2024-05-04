@@ -10,7 +10,7 @@ export class MeetingController{
     ){}
 
     public async createMeetingController(req: Request, res: Response){
-        const { protocol, datetime, meetingType,physicalRoom,virtualRoom,participants} = req.body
+        const { protocol, beginning_time, end_time, meetingType,physicalRoom,virtualRoom,participants} = req.body
 
         if(meetingType == 1){
             if(physicalRoom == null || virtualRoom != null){
@@ -30,7 +30,7 @@ export class MeetingController{
         }
 
 
-        if(!protocol || !datetime || !meetingType ||!participants) return res.sendStatus(400)
+        if(!protocol || !beginning_time || !end_time || !meetingType ||!participants) return res.sendStatus(400)
 
         try{
             await this.meetingServices.createMeeting(req.body)

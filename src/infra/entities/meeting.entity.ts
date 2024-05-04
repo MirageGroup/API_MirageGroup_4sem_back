@@ -14,7 +14,10 @@ export class Meeting {
     description!: string;
 
     @Column()
-    datetime!: Date;
+    beginning_time!: Date;
+
+    @Column()
+    end_time!: Date;
 
     @Column({ name: 'meeting_type' })
     meetingType!: number;
