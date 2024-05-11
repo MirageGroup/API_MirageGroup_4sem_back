@@ -4,11 +4,10 @@ import appDataSource from "./infra/data-source";
 import { PhysicalRoomRouter, VirtualRoomRouter } from './routes/room.routes';
 import cookieParser from 'cookie-parser';
 import MeetingRouter from './routes/meeting.routes';
+import  SendEmail  from './Data/SendEmail';
 
 require('dotenv').config()
 const app = Express()
-
-
 const cors = require("cors");
 
 
