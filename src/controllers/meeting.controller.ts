@@ -9,6 +9,39 @@ export class MeetingController{
         private readonly meetingServices: MeetingServices
     ){}
 
+    public async authorize(req: Request, res: Response) {
+        res.redirect(
+            `https://zoom.us/oauth/authorize?response_type=code&client_id=4wYTcnqGRYSWytTTBOoTYw&redirect_uri=http://localhost:8080/meeting/callback/`
+        );
+    }
+
+    public async callback(req: Request, res: Response) {
+        const code = req.query.code as string;
+        try {
+            console.log('Código:', code);
+            const accessToken = await this.meetingServices.getAccessToken(code);
+            console.log('Token de Acesso:', accessToken);
+            res.redirect(`http://localhost:8080/?accessToken=${accessToken}`);
+        } catch (error) {
+            console.error('Erro ao obter token de acesso:', error);
+        }
+    }
+
+    public async zoomMeeting(req: Request, res: Response) {
+        const { topic, startDate, duration, accessToken } = req.body;
+        console.log("Tópico:", topic);
+        console.log("Data de Início:", startDate);
+        console.log("Duração:", duration);
+        console.log("Token de Acesso:", accessToken);
+        try {
+            const reuniao = await this.meetingServices.zoomMeting(topic, startDate, duration, accessToken);
+            res.json(reuniao);
+        } catch (error) {
+            console.error('Erro ao criar reunião:', error);
+            res.status(500).send('Erro ao criar reunião.');
+        }
+    }
+
     public async createMeetingController(req: Request, res: Response){
         const { protocol, beginning_time, end_time, meetingType,physicalRoom,virtualRoom,participants} = req.body
 

@@ -1,5 +1,6 @@
 import { Meeting } from "infra/entities/meeting.entity"
 import { Repository } from "typeorm/repository/Repository"
+import axios from 'axios';
 
 
 export class MeetingServices {
@@ -31,4 +32,62 @@ export class MeetingServices {
     public async findOneOrFail (id: number){
         return await this.meetingRepository.findOneOrFail({relations: ["participants","physicalRoom","virtualRoom"],where: {id: id}})
     }
+
+    public async zoomMeting (topic: string, startDate: string, duration: string, accessToken: string): Promise<any> {
+        try { 
+            const response = await axios.post(
+                `https://api.zoom.us/v2/users/me/meetings`,
+                {
+                  topic,
+                  start_time: startDate,
+                  duration,
+                  type: 2,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                },
+            );
+            return response.data; 
+        } catch (error: any) {
+            console.error(
+              'Erro ao criar a reunião:',
+              error.response?.data || error.message,
+            );
+            throw error;
+        }
+    }
+
+    async getAccessToken(code: string): Promise<string> {
+        try {
+          const requestBody = new URLSearchParams();
+          requestBody.append('grant_type', 'authorization_code');
+          console.log(code);
+          requestBody.append('code', code);
+          requestBody.append(
+            'redirect_uri',
+            'http://localhost:8080/meeting/callback',
+          );
+    
+          const response = await axios.post(
+            'https://zoom.us/oauth/token',
+            requestBody.toString(),
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic NHdZVGNucUdSWVNXeXRUVEJPb1RZdzpkQ3BNSXlWQXc2ZzZ4YThUSmtNcUYyREY2bFNvN1BXbA==`,
+              },
+            },
+          );
+          
+          return response.data.access_token;
+        } catch (error: any) {
+          console.error(
+            'Erro ao obter o token de acesso:',
+            error.response?.data || error.message,
+          );
+          throw error;
+        }
+      }
 }
