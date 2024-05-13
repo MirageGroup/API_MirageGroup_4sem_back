@@ -76,7 +76,7 @@ export class MeetingServices {
             {
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                Authorization: `Basic ek9BNm5WbXlTT2lGYWJRRFdCY1gxQTpmVjVzVkV5UFhabGRtOUdyalJVVUE0M2Y3T0kxeHlLMw==`,
+                Authorization: `Basic ${process.env.CLI_CODEBASE64}==`,
               },
             },
           );

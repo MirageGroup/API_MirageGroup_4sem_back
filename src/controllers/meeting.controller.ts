@@ -11,7 +11,7 @@ export class MeetingController{
 
     public async authorize(req: Request, res: Response) {
         res.redirect(
-            `https://zoom.us/oauth/authorize?response_type=code&client_id=zOA6nVmySOiFabQDWBcX1A&redirect_uri=http://localhost:8080/meeting/callback`
+            `https://zoom.us/oauth/authorize?response_type=code&client_id=${process.env.CLI_ID}&redirect_uri=http://localhost:8080/meeting/callback`
         );
     }
 
@@ -43,7 +43,9 @@ export class MeetingController{
     }
 
     public async createMeetingController(req: Request, res: Response){
-        const { topic, beginning_time, end_time, meetingType, physicalRoom, virtualRoom, participants } = req.body
+        const { topic, beginning_time, end_time, meetingType, physicalRoom, virtualRoom, participants, join_url, start_url, passcode} = req.body
+
+        console.log("BODY ", req.body)
 
         if(meetingType == 1){
             if(physicalRoom == null || virtualRoom != null){
