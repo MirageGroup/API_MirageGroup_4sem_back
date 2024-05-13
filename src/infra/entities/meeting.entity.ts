@@ -8,7 +8,7 @@ export class Meeting {
     id!: number;
 
     @Column()
-    protocol!: string;
+    topic!: string;
 
     @Column()
     description!: string;

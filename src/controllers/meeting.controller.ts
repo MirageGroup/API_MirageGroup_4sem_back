@@ -11,7 +11,7 @@ export class MeetingController{
 
     public async authorize(req: Request, res: Response) {
         res.redirect(
-            `https://zoom.us/oauth/authorize?response_type=code&client_id=4wYTcnqGRYSWytTTBOoTYw&redirect_uri=http://localhost:8080/meeting/callback/`
+            `https://zoom.us/oauth/authorize?response_type=code&client_id=4wYTcnqGRYSWytTTBOoTYw&redirect_uri=http://localhost:8080/meeting/callback`
         );
     }
 
@@ -21,7 +21,7 @@ export class MeetingController{
             console.log('Código:', code);
             const accessToken = await this.meetingServices.getAccessToken(code);
             console.log('Token de Acesso:', accessToken);
-            res.redirect(`http://localhost:8080/?accessToken=${accessToken}`);
+            res.redirect(`http://localhost:3000/dashboard?accessToken=${accessToken}`);
         } catch (error) {
             console.error('Erro ao obter token de acesso:', error);
         }
@@ -43,7 +43,7 @@ export class MeetingController{
     }
 
     public async createMeetingController(req: Request, res: Response){
-        const { protocol, beginning_time, end_time, meetingType,physicalRoom,virtualRoom,participants} = req.body
+        const { topic, beginning_time, end_time, meetingType,physicalRoom,virtualRoom,participants} = req.body
 
         if(meetingType == 1){
             if(physicalRoom == null || virtualRoom != null){
@@ -63,7 +63,7 @@ export class MeetingController{
         }
 
 
-        if(!protocol || !beginning_time || !end_time || !meetingType ||!participants) return res.sendStatus(400)
+        if(!topic || !beginning_time || !end_time || !meetingType ||!participants) return res.sendStatus(400)
 
         try{
             await this.meetingServices.createMeeting(req.body)
