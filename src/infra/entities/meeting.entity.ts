@@ -21,12 +21,6 @@ export class Meeting {
 
     @Column()
     join_url!: string;
-    
-    @Column()
-    start_url!: string;
-
-    @Column()
-    passcode!: string;
 
     @Column({ name: 'meeting_type' })
     meetingType!: number;

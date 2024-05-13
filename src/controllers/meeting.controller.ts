@@ -43,9 +43,7 @@ export class MeetingController{
     }
 
     public async createMeetingController(req: Request, res: Response){
-        const { topic, beginning_time, end_time, meetingType, physicalRoom, virtualRoom, participants, join_url, start_url, passcode} = req.body
-
-        console.log("BODY ", req.body)
+        const { topic, beginning_time, end_time, meetingType, physicalRoom, virtualRoom, participants } = req.body
 
         if(meetingType == 1){
             if(physicalRoom == null || virtualRoom != null){
