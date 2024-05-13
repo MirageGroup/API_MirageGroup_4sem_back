@@ -11,7 +11,7 @@ export class MeetingController{
 
     public async authorize(req: Request, res: Response) {
         res.redirect(
-            `https://zoom.us/oauth/authorize?response_type=code&client_id=4wYTcnqGRYSWytTTBOoTYw&redirect_uri=http://localhost:8080/meeting/callback`
+            `https://zoom.us/oauth/authorize?response_type=code&client_id=zOA6nVmySOiFabQDWBcX1A&redirect_uri=http://localhost:8080/meeting/callback`
         );
     }
 

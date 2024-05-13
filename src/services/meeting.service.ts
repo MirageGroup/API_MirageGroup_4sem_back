@@ -76,7 +76,7 @@ export class MeetingServices {
             {
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                Authorization: `Basic NHdZVGNucUdSWVNXeXRUVEJPb1RZdzpkQ3BNSXlWQXc2ZzZ4YThUSmtNcUYyREY2bFNvN1BXbA==`,
+                Authorization: `Basic ek9BNm5WbXlTT2lGYWJRRFdCY1gxQTpmVjVzVkV5UFhabGRtOUdyalJVVUE0M2Y3T0kxeHlLMw==`,
               },
             },
           );
