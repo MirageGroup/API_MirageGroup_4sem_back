@@ -4,6 +4,7 @@ import { Router } from "express";
 import { MeetingServices } from '../services/meeting.service';
 import { Meeting } from '../infra/entities/meeting.entity';
 import { MeetingController } from '../controllers/meeting.controller';
+import multer from 'multer';
 
 
 const MeetingRouter = Router()
@@ -11,10 +12,10 @@ const MeetingRouter = Router()
 const service = new MeetingServices(appDataSource.getRepository(Meeting))
 const controller = new MeetingController(service)
 
+const upload = multer({
+    storage: multer.memoryStorage(),
+})
 
-
-
-// ROTAS DA SALA FISICA
 MeetingRouter.post('/create', async (req, res) => {
     await controller.createMeetingController(req, res)
 })
@@ -36,7 +37,9 @@ MeetingRouter.patch('/update/:id', async (req, res) => {
     await controller.updateMeetingController(req, res)
 })
 
-
+MeetingRouter.post('/:meeting_id/uploadata', upload.single('file'), async (req, res) => {
+    await controller.uploadAta(req, res)
+})
 
 
 export default MeetingRouter
