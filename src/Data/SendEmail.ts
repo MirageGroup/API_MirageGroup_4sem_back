@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 
 
 export default async function SendEmail(destinatario: string, assunto: string, corpo: string) {
-    console.log(process.env.TRANSPORTER_PASSWORD,)
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
