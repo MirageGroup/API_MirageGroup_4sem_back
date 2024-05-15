@@ -4,7 +4,7 @@ import {
   PhysicalRoomServices,
   VirtualRoomServices,
 } from "services/room.service";
-import { QueryFailedError } from "typeorm";
+import { FindRelationsNotFoundError, QueryFailedError } from "typeorm";
 import SendEmail from "../Data/SendEmail";
 import {formatUpdateMeetingEmail,formatCreateMeetingEmail} from "../Data/formatUpdateMeetingEmail";
 
@@ -96,6 +96,18 @@ export class MeetingController {
     const id = Number(req.params.id);
     const room = await this.meetingServices.getMeeting(id);
     return res.send(room);
+  }
+
+  public async fetchMeetingByUserController(req: Request, res: Response) {
+    const id = req.params.meetingId
+    try{
+      const meetings = await this.meetingServices.fetchMeetingsByUser(Number(id))
+      return res.send(meetings)
+    }catch(error){
+      if (error instanceof FindRelationsNotFoundError){
+        res.status(404).send({ message: "User not found" })
+      }
+    }
   }
 
   public async deleteMeetingController(req: Request, res: Response) {
