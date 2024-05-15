@@ -1,16 +1,48 @@
-import { Request, Response } from "express";
-import { MeetingServices } from "services/meeting.service";
-import {
-  PhysicalRoomServices,
-  VirtualRoomServices,
-} from "services/room.service";
+import { Request, Response } from 'express'
+import { MeetingServices } from 'services/meeting.service'
+import { PhysicalRoomServices, VirtualRoomServices } from 'services/room.service'
 import { FindRelationsNotFoundError, QueryFailedError } from "typeorm";
 import SendEmail from "../Data/SendEmail";
 import {formatUpdateMeetingEmail,formatCreateMeetingEmail} from "../Data/formatUpdateMeetingEmail";
 
-export class MeetingController {
-  public constructor(private readonly meetingServices: MeetingServices) {}
+export class MeetingController{
+    public constructor(
+        private readonly meetingServices: MeetingServices
+    ){}
 
+    public async authorize(req: Request, res: Response) {
+        res.redirect(
+            `https://zoom.us/oauth/authorize?response_type=code&client_id=${process.env.CLI_ID}&redirect_uri=http://localhost:8080/meeting/callback`
+        );
+    }
+
+    public async callback(req: Request, res: Response) {
+        const code = req.query.code as string;
+        try {
+            console.log('Código:', code);
+            const accessToken = await this.meetingServices.getAccessToken(code);
+            console.log('Token de Acesso:', accessToken);
+            res.redirect(`http://localhost:3000/dashboard?accessToken=${accessToken}`);
+        } catch (error) {
+            console.error('Erro ao obter token de acesso:', error);
+        }
+    }
+
+    public async zoomMeeting(req: Request, res: Response) {
+        const { topic, startDate, duration, accessToken } = req.body;
+        console.log("Tópico:", topic);
+        console.log("Data de Início:", startDate);
+        console.log("Duração:", duration);
+        console.log("Token de Acesso:", accessToken);
+        try {
+            const reuniao = await this.meetingServices.zoomMeting(topic, startDate, duration, accessToken);
+            res.json(reuniao);
+        } catch (error) {
+            console.error('Erro ao criar reunião:', error);
+            res.status(500).send('Erro ao criar reunião.');
+        }
+    }
+      
   public async createMeetingController(req: Request, res: Response) {
     const {
       protocol,

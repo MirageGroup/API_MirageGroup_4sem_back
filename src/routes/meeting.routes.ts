@@ -19,6 +19,18 @@ MeetingRouter.post('/create', async (req, res) => {
     await controller.createMeetingController(req, res)
 })
 
+MeetingRouter.get('/authorize', async (req, res) => {
+    await controller.authorize(req, res);
+});
+
+MeetingRouter.get('/callback', async (req, res) => {
+    await controller.callback(req, res);
+});
+
+MeetingRouter.post('/create-meeting', async (req, res) => {
+    await controller.zoomMeeting(req, res);
+});
+
 MeetingRouter.get('/get', async (req, res) => {
     await controller.getAllMeetingsController(req, res)
 })
