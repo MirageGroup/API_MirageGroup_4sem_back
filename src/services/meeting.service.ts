@@ -31,7 +31,7 @@ export class MeetingServices {
         .where('user.id = :id', { id })
         .select([
             'meeting.id',
-            'meeting.protocol',
+            'meeting.topic',
             'meeting.description',
             'meeting.beginning_time',
             'meeting.end_time',
