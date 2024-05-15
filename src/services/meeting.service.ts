@@ -1,4 +1,5 @@
 import { Meeting } from "infra/entities/meeting.entity"
+import { FindRelationsNotFoundError } from "typeorm"
 import { Repository } from "typeorm/repository/Repository"
 
 
@@ -18,6 +19,16 @@ export class MeetingServices {
 
     public async getAllMeetings(){
         return await this.meetingRepository.find({relations: ["participants","physicalRoom","virtualRoom"]},)
+    }
+
+    public async fetchMeetingsByUser(id: number){
+        const meetings = await this.meetingRepository
+        .createQueryBuilder('meeting')
+        .leftJoin('meeting.participants', 'user')
+        .where('user.id = :id', { id })
+        .getMany()
+        if(meetings.length === 0) throw new FindRelationsNotFoundError(['participants'])
+        return meetings
     }
 
     public async deleteMeeting(id: number){
