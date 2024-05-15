@@ -39,6 +39,10 @@ MeetingRouter.get('/get/:id', async (req, res) => {
     await controller.getMeetingController(req, res)
 })
 
+MeetingRouter.get('/fetch/:meetingId', async (req, res) => {
+    await controller.fetchMeetingByUserController(req, res)
+})
+
 MeetingRouter.delete('/delete', async (req, res) => {
     
     await controller.deleteMeetingController(req, res)
