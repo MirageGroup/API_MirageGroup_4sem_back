@@ -1,9 +1,9 @@
 import { UserServices } from '../services/user.services';
-import { UserController } from '../controllers/user.controller';
 import appDataSource from '../infra/data-source';
 import { User } from '../infra/entities/user.entity';
 import { Router } from "express";
 import auth from '../middlewares/auth';
+import { UserController } from 'controllers';
 
 const userRouter = Router()
 
@@ -25,8 +25,6 @@ userRouter.get('/fetchall', async (req, res) => {
 userRouter.get('/getprofile', auth, async (req, res) => {
     controller.getProfileController(req, res)
 })
-
-
 
 userRouter.patch('/update', auth, async (req, res) => {
     controller.updateUserController(req, res)
