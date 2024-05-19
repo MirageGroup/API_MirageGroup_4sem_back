@@ -1,10 +1,9 @@
 import { Request, Response } from 'express'
 import { MeetingServices } from 'services/meeting.service'
-import { PhysicalRoomServices, VirtualRoomServices } from 'services/room.service'
 import { QueryFailedError } from 'typeorm'
 
 
-export class MeetingController{
+export default class MeetingController{
     public constructor(
         private readonly meetingServices: MeetingServices
     ){}
@@ -55,10 +54,22 @@ export class MeetingController{
         return res.send(room)
     }
 
-    public async deleteMeetingController(req: Request, res: Response){
+    public async deleteMeetingController(req: Request, res: Response) {
         const id = req.body.id
-        await this.meetingServices.deleteMeeting(id)
-        return res.sendStatus(204)
+    
+        try {
+            const hasMeetings = await this.meetingServices.hasMeetingsInRoom(id)
+    
+            if (hasMeetings) {
+                return res.status(400).json({ message: 'Não é possível deletar a sala pois há reuniões marcadas nela.' })
+            }
+    
+            await this.meetingServices.deleteMeeting(id)
+            return res.sendStatus(204)
+        } catch (error) {
+            console.error('Erro ao tentar deletar a sala de reuniões:', error)
+            return res.status(500).json({ message: 'Erro interno no servidor.' })
+        }
     }
 
     public async updateMeetingController(req: Request, res: Response){

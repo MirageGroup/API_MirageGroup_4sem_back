@@ -3,7 +3,7 @@ import { User } from 'infra/entities/user.entity'
 import { UserServices } from 'services/user.services'
 import { EntityNotFoundError, QueryFailedError } from 'typeorm'
 
-export class UserController {
+export default class UserController {
 
     public constructor(
         private readonly userServices: UserServices
