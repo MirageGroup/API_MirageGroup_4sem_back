@@ -31,4 +31,9 @@ export class MeetingServices {
     public async findOneOrFail (id: number){
         return await this.meetingRepository.findOneOrFail({relations: ["participants","physicalRoom","virtualRoom"],where: {id: id}})
     }
+
+    public async hasMeetingsInRoom(roomId: number): Promise<boolean> {
+        const count = await this.meetingRepository.count({ where: { physicalRoom: { id: roomId } } });
+        return count > 0;
+    }
 }

@@ -1,11 +1,13 @@
 import { PhysicalRoom, VirtualRoom } from 'infra/entities/room.entity';
 import { Repository } from 'typeorm';
 import bcrypt from 'bcrypt'
+import { Meeting } from 'infra/entities/meeting.entity';
 
 export class PhysicalRoomServices {
 
     public constructor(
-        private readonly physicalRoomRepository: Repository<PhysicalRoom>
+        private readonly physicalRoomRepository: Repository<PhysicalRoom>,
+        private readonly meetingRepository: Repository<Meeting>
     ){}
 
     public async createRoom(room: PhysicalRoom){
@@ -27,12 +29,19 @@ export class PhysicalRoomServices {
     public async updateRoom(room: PhysicalRoom, id: number){
         return await this.physicalRoomRepository.save(room)
     }
+
+    public async hasMeetings(roomId: number): Promise<boolean> {
+        const count = await this.meetingRepository.count({ where: { physicalRoom: { id: roomId } } });
+        return count > 0;
+    }
 }
 
 export class VirtualRoomServices {
 
     public constructor(
-        private readonly virtualRoomRepository: Repository<VirtualRoom>
+        private readonly virtualRoomRepository: Repository<VirtualRoom>,
+        private readonly meetingRepository: Repository<Meeting>
+
     ){}
 
     public async createRoom(room: PhysicalRoom){
@@ -53,5 +62,10 @@ export class VirtualRoomServices {
 
     public async updateRoom(room: PhysicalRoom, id: number){
         return await this.virtualRoomRepository.update(room.id, room)
+    }
+
+    public async hasMeetings(roomId: number): Promise<boolean> {
+        const count = await this.meetingRepository.count({ where: { physicalRoom: { id: roomId } } });
+        return count > 0;
     }
 }
