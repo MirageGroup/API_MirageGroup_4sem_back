@@ -19,7 +19,7 @@ export class Meeting {
     @Column()
     end_time!: Date;
 
-    @Column()
+    @Column({default: null})
     join_url!: string;
 
     @Column({ name: 'meeting_type' })
