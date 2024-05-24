@@ -31,6 +31,7 @@ export class MeetingServices {
       .leftJoinAndSelect("meeting.virtualRoom", "virtualRoom")
       .where("participant.id = :id", { id })
       .select([
+        "meeting.join_url",
         "meeting.id",
         "meeting.topic",
         "meeting.description",
