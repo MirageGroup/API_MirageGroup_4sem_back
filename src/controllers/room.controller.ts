@@ -95,14 +95,12 @@ export class VirtualRoomController {
     const id = req.body.id;
 
     try {
-      // Verificar se a sala virtual está associada a reuniões
       const hasMeetings = await this.virtualroomServices.hasMeetings(id)
 
       if (hasMeetings) {
         return res.status(400).json({ message: 'Não é possível deletar a sala pois há reuniões marcadas nela.' })
       }
 
-      // Caso não haja associações, prosseguir com a exclusão
       await this.virtualroomServices.deleteRoom(id)
       return res.sendStatus(204)
     } catch (error) {

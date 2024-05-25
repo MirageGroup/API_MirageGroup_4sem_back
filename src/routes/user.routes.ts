@@ -4,10 +4,14 @@ import { User } from '../infra/entities/user.entity';
 import { Router } from "express";
 import auth from '../middlewares/auth';
 import UserController from '../controllers/user.controller';
+import { Meeting } from '../infra/entities/meeting.entity';
 
 const userRouter = Router()
 
-const service = new UserServices(appDataSource.getRepository(User))
+const serviceUser = appDataSource.getRepository(User)
+const serviceMeeting = appDataSource.getRepository(Meeting)
+
+const service = new UserServices(serviceUser, serviceMeeting)
 const controller = new UserController(service)
 
 userRouter.post('/create', async (req, res) => {
@@ -30,7 +34,7 @@ userRouter.patch('/update', auth, async (req, res) => {
     controller.updateUserController(req, res)
 })
 
-userRouter.delete('/delete', auth, async (req, res) => {
+userRouter.delete('/delete', async (req, res) => {
     controller.deleteUserController(req, res)
 })
 
