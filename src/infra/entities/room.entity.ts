@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Meeting } from './meeting.entity';
 
 @Entity()
 export class PhysicalRoom {
@@ -8,7 +9,7 @@ export class PhysicalRoom {
     @Column({ name: 'virtual_room_name' })
     name!: string;
 
-    @Column ({ name: 'physical_room_description' })
+    @Column({ name: 'physical_room_description' })
     description!: string;
     
     @Column()
@@ -20,6 +21,8 @@ export class PhysicalRoom {
     @Column({ name: 'access_level' })
     accessLevel!: number;
 
+    @OneToMany(() => Meeting, (meeting) => meeting.physicalRoom)
+    meetings!: Meeting[];
 }
 
 @Entity()

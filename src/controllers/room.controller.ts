@@ -47,6 +47,13 @@ export class PhysicalRoomController{
         return res.sendStatus(204)
     }
 
+    public async checkAvailableRooms(req: Request, res: Response){
+        const meeting = req.body
+        const availableRooms = await this.physicalroomServices.checkAvailableRooms(meeting)
+        console.log(availableRooms)
+        return res.status(200).send(availableRooms)
+    }
+
 }
 export class VirtualRoomController{
     public constructor(

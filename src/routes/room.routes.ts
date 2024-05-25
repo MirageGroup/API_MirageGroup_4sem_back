@@ -36,6 +36,10 @@ PhysicalRoomRouter.patch('/update', async (req, res) => {
     await controller.updateRoomController(req, res)
 })
 
+PhysicalRoomRouter.post('/checkAvailability', async (req, res) => {
+    await controller.checkAvailableRooms(req, res)
+})
+
 // ROTAS DA SALA Virtual
 VirtualRoomRouter.post('/create', async (req, res) => {
     await virtualController.createRoomController(req, res)
