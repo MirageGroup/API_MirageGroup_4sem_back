@@ -2,7 +2,7 @@ import appDataSource from '../infra/data-source';
 import { Router } from "express";
 import { MeetingServices } from '../services/meeting.service';
 import { Meeting } from '../infra/entities/meeting.entity';
-import { MeetingController } from 'controllers';
+import { MeetingController } from '../controllers/meeting.controller';
 
 const MeetingRouter = Router()
 

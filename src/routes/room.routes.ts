@@ -3,8 +3,8 @@ import appDataSource from '../infra/data-source';
 import { Router } from "express";
 import { PhysicalRoomServices, VirtualRoomServices } from '../services/room.service';
 import { PhysicalRoom, VirtualRoom } from '../infra/entities/room.entity';
-import { Meeting } from 'infra/entities/meeting.entity';
-import { PhysicalRoomController, VirtualRoomController } from 'controllers';
+import { Meeting } from '../infra/entities/meeting.entity';
+import { PhysicalRoomController, VirtualRoomController } from '../controllers/room.controller';
 
 const PhysicalRoomRouter = Router()
 const VirtualRoomRouter = Router()

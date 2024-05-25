@@ -3,7 +3,7 @@ import appDataSource from '../infra/data-source';
 import { User } from '../infra/entities/user.entity';
 import { Router } from "express";
 import auth from '../middlewares/auth';
-import { UserController } from 'controllers';
+import UserController from '../controllers/user.controller';
 
 const userRouter = Router()
 
