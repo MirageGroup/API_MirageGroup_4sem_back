@@ -1,9 +1,10 @@
 import { Request, Response } from 'express'
 import { MeetingServices } from 'services/meeting.service'
+import { PhysicalRoomServices, VirtualRoomServices } from 'services/room.service'
 import { QueryFailedError } from 'typeorm'
 
 
-export default class MeetingController{
+export class MeetingController{
     public constructor(
         private readonly meetingServices: MeetingServices
     ){}
