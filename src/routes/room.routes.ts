@@ -4,6 +4,7 @@ import { Router } from "express";
 import { PhysicalRoomServices, VirtualRoomServices } from '../services/room.service';
 import { PhysicalRoom, VirtualRoom } from '../infra/entities/room.entity';
 import { PhysicalRoomController, VirtualRoomController } from '../controllers/room.controller';
+import auth from '../middlewares/auth';
 
 const PhysicalRoomRouter = Router()
 const VirtualRoomRouter = Router()
@@ -36,6 +37,10 @@ PhysicalRoomRouter.patch('/update', async (req, res) => {
     await controller.updateRoomController(req, res)
 })
 
+PhysicalRoomRouter.post('/checkAvailability', auth, async (req, res) => {
+    await controller.checkAvailableRooms(req, res)
+})
+
 // ROTAS DA SALA Virtual
 VirtualRoomRouter.post('/create', async (req, res) => {
     await virtualController.createRoomController(req, res)
@@ -55,6 +60,10 @@ VirtualRoomRouter.delete('/delete', async (req, res) => {
 
 VirtualRoomRouter.patch('/update', async (req, res) => {
     await virtualController.updateRoomController(req, res)
+})
+
+VirtualRoomRouter.post('/checkAvailability', auth, async (req, res) => {
+    await virtualController.checkAvailableRooms(req, res)
 })
 
 
