@@ -2,24 +2,24 @@ import { Request, Response } from 'express'
 import { PhysicalRoomServices, VirtualRoomServices } from 'services/room.service'
 import { QueryFailedError } from 'typeorm'
 
+export class PhysicalRoomController{
+    public constructor(
+        private readonly physicalroomServices: PhysicalRoomServices
+    ){}
 
-export class PhysicalRoomController {
-  public constructor(
-    private readonly physicalroomServices: PhysicalRoomServices
-  ) { }
+    public async createRoomController(req: Request, res: Response){
+        const { name, occupancy, location, accessLevel, } = req.body
+        if(!name || !occupancy || !location || !accessLevel ) return res.sendStatus(400)
 
-  public async createRoomController(req: Request, res: Response) {
-    const { occupancy, location, accessLevel, } = req.body
-    if (!occupancy || !location || !accessLevel) return res.sendStatus(400)
-
-    try {
-      await this.physicalroomServices.createRoom(req.body)
-      res.sendStatus(201)
-    } catch (error) {
-      if (error instanceof QueryFailedError && error.message.includes('Duplicate entry')) {
-        return res.sendStatus(409)
-      }
-      return res.status(500).send(error)
+        try{
+            await this.physicalroomServices.createRoom(req.body)
+            res.sendStatus(201)
+        }catch(error){           
+            if (error instanceof QueryFailedError && error.message.includes('Duplicate entry')) {
+                return res.sendStatus(409)
+            }
+            return res.status(500).send(error)
+        }
     }
   }
 
@@ -52,13 +52,40 @@ export class PhysicalRoomController {
     }
   }
 
-  public async updateRoomController(req: Request, res: Response){
-    const id = Number(req.params.id)
-    const room = req.body
-    await this.physicalroomServices.updateRoom(room,id)
-    return res.sendStatus(204)
-}
+   public async updateRoomController(req: Request, res: Response){
+      const id = Number(req.params.id)
+      const room = req.body
+      await this.physicalroomServices.updateRoom(room,id)
+      return res.sendStatus(204)
+  }
 
+    public async checkAvailableRooms(req: Request, res: Response){
+        const meeting = req.body
+        const userAccessLevel = req.user.access_level
+        const availableRooms = await this.physicalroomServices.checkAvailableRooms(meeting, userAccessLevel)
+        return res.status(200).send(availableRooms)
+    }
+
+}
+export class VirtualRoomController{
+    public constructor(
+        private readonly virtualroomServices: VirtualRoomServices
+    ){}
+
+    public async createRoomController(req: Request, res: Response){
+        const { name, login, password, accessLevel } = req.body
+        if(!name || !login || !password || !accessLevel ) return res.sendStatus(400)
+
+        try{
+            await this.virtualroomServices.createRoom(req.body)
+            return res.sendStatus(201)
+        }catch(error){           
+            if (error instanceof QueryFailedError && error.message.includes('Duplicate entry')) {
+                return res.sendStatus(409)
+            }
+            return res.status(500).send(error)
+        }
+    }
 }
 export class VirtualRoomController {
   public constructor(
@@ -116,4 +143,18 @@ export class VirtualRoomController {
     return res.sendStatus(204)
   }
 
+    public async updateRoomController(req: Request, res: Response){
+        const id = Number(req.params.id)
+        const room = req.body
+        await this.virtualroomServices.updateRoom(room,id)
+        return res.sendStatus(204)
+    }
+
+    public async checkAvailableRooms(req: Request, res: Response){
+        const meeting = req.body
+        const userAccessLevel = req.user.access_level
+        const availableRooms = await this.virtualroomServices.checkAvailableRooms(meeting, userAccessLevel)
+        return res.status(200).send(availableRooms)
+    }
+  
 }
