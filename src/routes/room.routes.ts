@@ -61,6 +61,10 @@ VirtualRoomRouter.patch('/update', async (req, res) => {
     await virtualController.updateRoomController(req, res)
 })
 
+VirtualRoomRouter.post('/checkAvailability', async (req, res) => {
+    await virtualController.checkAvailableRooms(req, res)
+})
+
 
 
 export { PhysicalRoomRouter, VirtualRoomRouter }

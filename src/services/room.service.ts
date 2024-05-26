@@ -78,4 +78,24 @@ export class VirtualRoomServices {
     public async updateRoom(room: PhysicalRoom, id: number){
         return await this.virtualRoomRepository.update(room.id, room)
     }
+
+    async checkAvailableRooms(meeting: Meeting): Promise<VirtualRoom[]> {
+        const beginningTime = meeting.beginning_time;
+        const endTime = meeting.end_time;
+        const rooms = await this.virtualRoomRepository.createQueryBuilder('virtualRoom')
+            .leftJoinAndSelect('virtualRoom.meetings', 'meeting')
+            .where(qb => {
+                const subQuery = qb.subQuery()
+                    .select('meeting.id')
+                    .from(Meeting, 'meeting')
+                    .where('meeting.virtualRoom.id = virtualRoom.id')
+                    .andWhere('meeting.beginning_time < :endTime', { endTime })
+                    .andWhere('meeting.end_time > :beginningTime', { beginningTime })
+                    .getQuery();
+                return `NOT EXISTS ${subQuery}`;
+            })
+            .getMany();
+
+        return rooms;
+    }
 }

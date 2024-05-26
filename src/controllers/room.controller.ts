@@ -50,7 +50,6 @@ export class PhysicalRoomController{
     public async checkAvailableRooms(req: Request, res: Response){
         const meeting = req.body
         const availableRooms = await this.physicalroomServices.checkAvailableRooms(meeting)
-        console.log(availableRooms)
         return res.status(200).send(availableRooms)
     }
 
@@ -61,8 +60,8 @@ export class VirtualRoomController{
     ){}
 
     public async createRoomController(req: Request, res: Response){
-        const { login, password, accessLevel } = req.body
-        if(!login || !password || !accessLevel ) return res.sendStatus(400)
+        const { name, description, login, password, accessLevel } = req.body
+        if(!name || !description || !login || !password || !accessLevel ) return res.sendStatus(400)
 
         try{
             await this.virtualroomServices.createRoom(req.body)
@@ -97,6 +96,13 @@ export class VirtualRoomController{
         const room = req.body
         await this.virtualroomServices.updateRoom(room,id)
         return res.sendStatus(204)
+    }
+
+    public async checkAvailableRooms(req: Request, res: Response){
+        const meeting = req.body
+        const availableRooms = await this.virtualroomServices.checkAvailableRooms(meeting)
+        console.log(availableRooms)
+        return res.status(200).send(availableRooms)
     }
 
 }
