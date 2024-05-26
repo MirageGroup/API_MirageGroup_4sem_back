@@ -3,16 +3,23 @@ import appDataSource from '../infra/data-source';
 import { Router } from "express";
 import { PhysicalRoomServices, VirtualRoomServices } from '../services/room.service';
 import { PhysicalRoom, VirtualRoom } from '../infra/entities/room.entity';
+import { Meeting } from '../infra/entities/meeting.entity';
 import { PhysicalRoomController, VirtualRoomController } from '../controllers/room.controller';
 import auth from '../middlewares/auth';
 
 const PhysicalRoomRouter = Router()
 const VirtualRoomRouter = Router()
 
-const service = new PhysicalRoomServices(appDataSource.getRepository(PhysicalRoom))
+const physicalRoomRepository = appDataSource.getRepository(PhysicalRoom)
+const physicalMeetingRepository = appDataSource.getRepository(Meeting);
+
+const service = new PhysicalRoomServices(physicalRoomRepository, physicalMeetingRepository)
 const controller = new PhysicalRoomController(service)
 
-const virtualService = new VirtualRoomServices(appDataSource.getRepository(VirtualRoom))
+const virtualRoomRepository = appDataSource.getRepository(VirtualRoom)
+const virtualMeetingRepository = appDataSource.getRepository(Meeting);
+
+const virtualService = new VirtualRoomServices(virtualRoomRepository, virtualMeetingRepository)
 const virtualController = new VirtualRoomController(virtualService)
 
 
@@ -30,7 +37,7 @@ PhysicalRoomRouter.get('/get/:id', async (req, res) => {
 })
 
 PhysicalRoomRouter.delete('/delete', async (req, res) => {
-    await controller.deleteRoomController(req, res)
+    await controller.deletePhysicalRoomController(req, res)
 })
 
 PhysicalRoomRouter.patch('/update', async (req, res) => {
@@ -55,7 +62,7 @@ VirtualRoomRouter.get('/getById', async (req, res) => {
 })
 
 VirtualRoomRouter.delete('/delete', async (req, res) => {
-    await virtualController.deleteRoomController(req, res)
+    await virtualController.deleteVirtualRoomController(req, res)
 })
 
 VirtualRoomRouter.patch('/update', async (req, res) => {
@@ -65,7 +72,5 @@ VirtualRoomRouter.patch('/update', async (req, res) => {
 VirtualRoomRouter.post('/checkAvailability', auth, async (req, res) => {
     await virtualController.checkAvailableRooms(req, res)
 })
-
-
 
 export { PhysicalRoomRouter, VirtualRoomRouter }

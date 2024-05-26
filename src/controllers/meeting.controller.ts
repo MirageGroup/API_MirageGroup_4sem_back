@@ -145,10 +145,21 @@ export class MeetingController{
   }
 
   public async deleteMeetingController(req: Request, res: Response) {
-    const id = req.body.id;
-    await this.meetingServices.deleteMeeting(id);
-    return res.sendStatus(204);
-  }
+        const id = req.body.id
+    
+        try {
+            const hasMeetings = await this.meetingServices.hasMeetingsInRoom(id)
+    
+            if (hasMeetings) {
+                return res.status(400).json({ message: 'Não é possível deletar a sala pois há reuniões marcadas nela.' })
+            }
+    
+            await this.meetingServices.deleteMeeting(id)
+            return res.sendStatus(204)
+        } catch (error) {
+            console.error('Erro ao tentar deletar a sala de reuniões:', error)
+            return res.status(500).json({ message: 'Erro interno no servidor.' })
+        }
 
   public async updateMeetingController(req: Request, res: Response) {
     const id = Number(req.params.id);

@@ -1,18 +1,13 @@
-
 import appDataSource from '../infra/data-source';
 import { Router } from "express";
 import { MeetingServices } from '../services/meeting.service';
 import { Meeting } from '../infra/entities/meeting.entity';
 import { MeetingController } from '../controllers/meeting.controller';
 
-
 const MeetingRouter = Router()
 
 const service = new MeetingServices(appDataSource.getRepository(Meeting))
 const controller = new MeetingController(service)
-
-
-
 
 // ROTAS DA SALA FISICA
 MeetingRouter.post('/create', async (req, res) => {
@@ -51,8 +46,5 @@ MeetingRouter.delete('/delete', async (req, res) => {
 MeetingRouter.patch('/update/:id', async (req, res) => {
     await controller.updateMeetingController(req, res)
 })
-
-
-
 
 export default MeetingRouter
