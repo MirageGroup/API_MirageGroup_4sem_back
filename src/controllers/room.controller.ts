@@ -9,8 +9,8 @@ export class PhysicalRoomController{
     ){}
 
     public async createRoomController(req: Request, res: Response){
-        const { occupancy, location, accessLevel, } = req.body
-        if(!occupancy || !location || !accessLevel ) return res.sendStatus(400)
+        const { name, occupancy, location, accessLevel, } = req.body
+        if(!name || !occupancy || !location || !accessLevel ) return res.sendStatus(400)
 
         try{
             await this.physicalroomServices.createRoom(req.body)
@@ -61,8 +61,8 @@ export class VirtualRoomController{
     ){}
 
     public async createRoomController(req: Request, res: Response){
-        const { name, description, login, password, accessLevel } = req.body
-        if(!name || !description || !login || !password || !accessLevel ) return res.sendStatus(400)
+        const { name, login, password, accessLevel } = req.body
+        if(!name || !login || !password || !accessLevel ) return res.sendStatus(400)
 
         try{
             await this.virtualroomServices.createRoom(req.body)

@@ -6,19 +6,16 @@ export class PhysicalRoom {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ name: 'virtual_room_name' })
+    @Column()
     name!: string;
-
-    @Column({ name: 'physical_room_description' })
-    description!: string;
+    
+    @Column()
+    location!: string;
     
     @Column()
     occupancy!: number;
 
     @Column()
-    location!: string;
-
-    @Column({ name: 'access_level' })
     accessLevel!: number;
 
     @OneToMany(() => Meeting, (meeting) => meeting.physicalRoom)
@@ -30,11 +27,8 @@ export class VirtualRoom {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ name: 'virtual_room_name' })
+    @Column()
     name!: string;
-
-    @Column({ name: 'physical_room_description' })
-    description!: string;
 
     @Column()
     login!: string;
@@ -42,7 +36,7 @@ export class VirtualRoom {
     @Column()
     password!: string;
 
-    @Column({ name: 'access_level' })
+    @Column()
     accessLevel!: number;
 
     @OneToMany(() => Meeting, (meeting) => meeting.virtualRoom)
