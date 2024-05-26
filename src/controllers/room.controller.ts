@@ -21,7 +21,6 @@ export class PhysicalRoomController{
             return res.status(500).send(error)
         }
     }
-  }
 
   public async getAllRoomsController(req: Request, res: Response) {
     const rooms = await this.physicalroomServices.getAllRooms()
@@ -65,28 +64,8 @@ export class PhysicalRoomController{
         const availableRooms = await this.physicalroomServices.checkAvailableRooms(meeting, userAccessLevel)
         return res.status(200).send(availableRooms)
     }
-
 }
-export class VirtualRoomController{
-    public constructor(
-        private readonly virtualroomServices: VirtualRoomServices
-    ){}
 
-    public async createRoomController(req: Request, res: Response){
-        const { name, login, password, accessLevel } = req.body
-        if(!name || !login || !password || !accessLevel ) return res.sendStatus(400)
-
-        try{
-            await this.virtualroomServices.createRoom(req.body)
-            return res.sendStatus(201)
-        }catch(error){           
-            if (error instanceof QueryFailedError && error.message.includes('Duplicate entry')) {
-                return res.sendStatus(409)
-            }
-            return res.status(500).send(error)
-        }
-    }
-}
 export class VirtualRoomController {
   public constructor(
     private readonly virtualroomServices: VirtualRoomServices
@@ -143,18 +122,12 @@ export class VirtualRoomController {
     return res.sendStatus(204)
   }
 
-    public async updateRoomController(req: Request, res: Response){
-        const id = Number(req.params.id)
-        const room = req.body
-        await this.virtualroomServices.updateRoom(room,id)
-        return res.sendStatus(204)
-    }
 
-    public async checkAvailableRooms(req: Request, res: Response){
-        const meeting = req.body
-        const userAccessLevel = req.user.access_level
-        const availableRooms = await this.virtualroomServices.checkAvailableRooms(meeting, userAccessLevel)
-        return res.status(200).send(availableRooms)
-    }
+  public async checkAvailableRooms(req: Request, res: Response){
+      const meeting = req.body
+      const userAccessLevel = req.user.access_level
+      const availableRooms = await this.virtualroomServices.checkAvailableRooms(meeting, userAccessLevel)
+      return res.status(200).send(availableRooms)
+  }
   
 }

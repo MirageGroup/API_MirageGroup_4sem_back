@@ -133,6 +133,7 @@ export class MeetingServices {
       );
       throw error;
     }
+  }
 
     public async hasMeetingsInRoom(roomId: number): Promise<boolean> {
         const count = await this.meetingRepository.count({ where: { physicalRoom: { id: roomId } } });

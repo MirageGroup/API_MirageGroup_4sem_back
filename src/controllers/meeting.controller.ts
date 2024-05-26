@@ -160,6 +160,7 @@ export class MeetingController{
             console.error('Erro ao tentar deletar a sala de reuniões:', error)
             return res.status(500).json({ message: 'Erro interno no servidor.' })
         }
+    }
 
   public async updateMeetingController(req: Request, res: Response) {
     const id = Number(req.params.id);
