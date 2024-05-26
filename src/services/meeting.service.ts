@@ -1,15 +1,25 @@
-import { Meeting } from "infra/entities/meeting.entity";
+import { Meeting } from "infra/entities/meeting.entity"
+import { Repository } from "typeorm/repository/Repository"
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { FindRelationsNotFoundError } from "typeorm";
-import { Repository } from "typeorm/repository/Repository";
 import axios from "axios";
+
+type params = {
+    Bucket: string | undefined;
+    Key: string;
+    Body: Buffer;
+}
 
 export class MeetingServices {
   public constructor(private readonly meetingRepository: Repository<Meeting>) {}
 
+    public constructor(
+        private readonly meetingRepository: Repository<Meeting>,
+        private readonly s3Client = new S3Client({ region: process.env.AWS_REGION })
+    ){}
   public async createMeeting(meeting: Meeting) {
     return await this.meetingRepository.save(meeting);
   }
-
   public async getMeeting(id: number) {
     return await this.meetingRepository.findOne({
       relations: ["participants", "physicalRoom", "virtualRoom"],
@@ -139,5 +149,12 @@ export class MeetingServices {
         const count = await this.meetingRepository.count({ where: { physicalRoom: { id: roomId } } });
         return count > 0;
     }
-}
+  
+    public async uploadAta(params: params, meeting: Meeting){
+        await this.s3Client.send(new PutObjectCommand(params))
+        const url = `https://s3.${process.env.AWS_REGION}.amazonaws.com/${params.Bucket}/${params.Key}`
+        meeting.ata_url = url
+        await this.meetingRepository.save(meeting)
+    }
 
+}

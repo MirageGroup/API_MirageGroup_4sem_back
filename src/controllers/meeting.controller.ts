@@ -162,6 +162,25 @@ export class MeetingController{
         }
     }
 
+    public async uploadAta(req: Request, res: Response){
+        if(!req.file?.originalname) return res.sendStatus(400)
+        const meeting = await this.meetingServices.getMeeting(parseInt(req.params.meeting_id))
+        if(!meeting) return res.sendStatus(404)
+        try{
+            const params = {
+                Bucket: process.env.AWS_S3_BUCKET_NAME,
+                Key: `meetings/meeting_${req.params.meeting_id}/${req.file?.originalname}`,
+                Body: req.file?.buffer
+            }
+            await this.meetingServices.uploadAta(params, meeting)
+            return res.sendStatus(200)
+        }catch(error){
+            console.error(error)
+            return res.status(500).send(error)
+        }
+    }
+
+}
   public async updateMeetingController(req: Request, res: Response) {
     const id = Number(req.params.id);
     const meetingData = req.body;
@@ -197,3 +216,4 @@ export class MeetingController{
     }
   }
 }
+
