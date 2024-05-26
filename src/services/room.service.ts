@@ -29,7 +29,7 @@ export class PhysicalRoomServices {
         return await this.physicalRoomRepository.save(room)
     }
 
-    public async checkAvailableRooms(meeting: Meeting): Promise<PhysicalRoom[]> {
+    public async checkAvailableRooms(meeting: Meeting, userAccessLevel: number): Promise<PhysicalRoom[]> {
         const numberOfParticipants = meeting.participants.length;
         const beginningTime = meeting.beginning_time;
         const endTime = meeting.end_time;
@@ -37,6 +37,7 @@ export class PhysicalRoomServices {
         const rooms = await this.physicalRoomRepository.createQueryBuilder('physicalRoom')
             .leftJoinAndSelect('physicalRoom.meetings', 'meeting')
             .where('physicalRoom.occupancy >= :numberOfParticipants', { numberOfParticipants })
+            .andWhere('physicalRoom.accessLevel <= :userAccessLevel', { userAccessLevel })
             .andWhere(qb => {
                 const subQuery = qb.subQuery()
                     .select('meeting.id')
@@ -79,12 +80,13 @@ export class VirtualRoomServices {
         return await this.virtualRoomRepository.update(room.id, room)
     }
 
-    async checkAvailableRooms(meeting: Meeting): Promise<VirtualRoom[]> {
+    async checkAvailableRooms(meeting: Meeting, userAccessLevel: number): Promise<VirtualRoom[]> {
         const beginningTime = meeting.beginning_time;
         const endTime = meeting.end_time;
         const rooms = await this.virtualRoomRepository.createQueryBuilder('virtualRoom')
             .leftJoinAndSelect('virtualRoom.meetings', 'meeting')
-            .where(qb => {
+            .where('virtualRoom.accessLevel <= :userAccessLevel', { userAccessLevel })
+            .andWhere(qb => {
                 const subQuery = qb.subQuery()
                     .select('meeting.id')
                     .from(Meeting, 'meeting')
