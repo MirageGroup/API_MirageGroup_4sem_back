@@ -11,8 +11,6 @@ type params = {
 }
 
 export class MeetingServices {
-  public constructor(private readonly meetingRepository: Repository<Meeting>) {}
-
     public constructor(
         private readonly meetingRepository: Repository<Meeting>,
         private readonly s3Client = new S3Client({ region: process.env.AWS_REGION })

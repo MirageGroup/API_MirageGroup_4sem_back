@@ -5,10 +5,10 @@ import { FindRelationsNotFoundError, QueryFailedError } from "typeorm";
 import SendEmail from "../Data/SendEmail";
 import {formatUpdateMeetingEmail,formatCreateMeetingEmail} from "../Data/formatUpdateMeetingEmail";
 
-export class MeetingController{
-    public constructor(
-        private readonly meetingServices: MeetingServices
-    ){}
+export class MeetingController {
+  public constructor(
+      private readonly meetingServices: MeetingServices
+  ) {}
 
     public async authorize(req: Request, res: Response) {
         res.redirect(
@@ -179,8 +179,7 @@ export class MeetingController{
             return res.status(500).send(error)
         }
     }
-
-}
+    
   public async updateMeetingController(req: Request, res: Response) {
     const id = Number(req.params.id);
     const meetingData = req.body;
@@ -216,4 +215,3 @@ export class MeetingController{
     }
   }
 }
-

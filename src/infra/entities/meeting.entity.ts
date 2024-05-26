@@ -48,7 +48,7 @@ export class Meeting {
         this.meetingTheme = themes.split(',').map(theme => theme.trim());
     }
 
-    @Column()
+    @Column({default: null})
     ata_url!: string
 
 }
