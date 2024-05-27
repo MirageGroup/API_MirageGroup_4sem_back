@@ -48,7 +48,6 @@ export class MeetingServices {
         "meeting.meetingType",
         "physicalRoom.id",
         "physicalRoom.name",
-        "physicalRoom.description",
         "physicalRoom.occupancy",
         "physicalRoom.location",
         "physicalRoom.accessLevel",

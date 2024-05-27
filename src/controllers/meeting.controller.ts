@@ -133,9 +133,11 @@ export class MeetingController {
   }
 
   public async fetchMeetingByUserController(req: Request, res: Response) {
-    const id = req.params.meetingId
+    const id = req.user.id
+    console.log(id)
     try{
       const meetings = await this.meetingServices.fetchMeetingsByUser(Number(id))
+      console.log('meetings', meetings)
       return res.send(meetings)
     }catch(error){
       if (error instanceof FindRelationsNotFoundError){

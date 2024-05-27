@@ -4,6 +4,7 @@ import { MeetingServices } from '../services/meeting.service';
 import { Meeting } from '../infra/entities/meeting.entity';
 import { MeetingController } from '../controllers/meeting.controller';
 import multer from 'multer';
+import auth from '../middlewares/auth';
 
 const MeetingRouter = Router()
 
@@ -38,7 +39,7 @@ MeetingRouter.get('/get/:id', async (req, res) => {
     await controller.getMeetingController(req, res)
 })
 
-MeetingRouter.get('/fetch/:meetingId', async (req, res) => {
+MeetingRouter.get('/fetch', auth, async (req, res) => {
     await controller.fetchMeetingByUserController(req, res)
 })
 
