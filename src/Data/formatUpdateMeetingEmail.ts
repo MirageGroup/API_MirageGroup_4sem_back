@@ -12,8 +12,9 @@ export function formatUpdateMeetingEmail(meeting: any): string{
       Tipo de Reunião: ${meeting.meetingType}
       Participantes: ${meeting.participants.map((participant: { name: any; }) => participant.name).join(', ')}
       Sala Física: ${meeting.physicalRoom ? meeting.physicalRoom.name : 'N/A'}
-      Sala Virtual: ${meeting.virtualRoom ? meeting.physicalRoom.name : 'N/A'}
+      Sala Virtual: ${meeting.virtualRoom ? meeting.virtualRoom.name : 'N/A'}
       Temas da Reunião: ${meeting.meetingTheme ? meeting.meetingTheme.join(', ') : 'N/A'}
+      ${meeting.virtualRoom ? `Link da Reunião: ${meeting.join_url}` : null}
     `;
   };
 
@@ -31,6 +32,7 @@ export function formatUpdateMeetingEmail(meeting: any): string{
     Sala Física: ${meeting.physicalRoom ? meeting.physicalRoom.name : 'N/A'}
     Sala Virtual: ${meeting.virtualRoom ? meeting.virtualRoom.id : 'N/A'}
     Temas da Reunião: ${meeting.meetingTheme ? meeting.meetingTheme.join(', ') : 'N/A'}
+    ${meeting.virtualRoom ? `Link da Reunião: ${meeting.join_url}` : null}
   `;
   }
 
@@ -48,6 +50,7 @@ export function formatUpdateMeetingEmail(meeting: any): string{
     Sala Física: ${meeting.physicalRoom ? meeting.physicalRoom.name : 'N/A'}
     Sala Virtual: ${meeting.virtualRoom ? meeting.virtualRoom.id : 'N/A'}
     Temas da Reunião: ${meeting.meetingTheme ? meeting.meetingTheme.join(', ') : 'N/A'}
+    ${meeting.virtualRoom ? `Link da Reunião: ${meeting.join_url}` : null}
   `;
   }
 
