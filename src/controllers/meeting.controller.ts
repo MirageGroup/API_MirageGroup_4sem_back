@@ -3,7 +3,7 @@ import { MeetingServices } from 'services/meeting.service'
 import { PhysicalRoomServices, VirtualRoomServices } from 'services/room.service'
 import { FindRelationsNotFoundError, QueryFailedError } from "typeorm";
 import SendEmail from "../Data/SendEmail";
-import {formatUpdateMeetingEmail,formatCreateMeetingEmail, formatCreateMeetingEmailGuest} from "../Data/formatUpdateMeetingEmail";
+import {formatUpdateMeetingEmail,formatCreateMeetingEmail, formatCreateMeetingEmailGuest, formatUpdateMeetingEmailGuest} from "../Data/formatUpdateMeetingEmail";
 
 export class MeetingController {
   public constructor(
@@ -209,6 +209,7 @@ export class MeetingController {
         await this.meetingServices.createMeeting(meeting);
         // Formatar os detalhes da reunião em texto
         const detalhesReuniao = formatUpdateMeetingEmail(meeting);
+        const detalhesReuniaoGuest = formatUpdateMeetingEmailGuest(meeting);
 
         // Envie o email para os participantes da reunião
         const destinatarios = participants.map(
@@ -216,6 +217,9 @@ export class MeetingController {
         );
         const assunto = "Atualização de Reunião";
         await SendEmail(destinatarios.join(","), assunto, detalhesReuniao);
+        if (meetingData.guests) {
+          await SendEmail(meetingData.guests, assunto, detalhesReuniaoGuest);
+        }
       }
 
       return res.sendStatus(204);
