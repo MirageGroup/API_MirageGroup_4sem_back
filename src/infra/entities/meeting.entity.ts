@@ -44,6 +44,9 @@ export class Meeting {
     @Column({ type: 'simple-array', nullable: true })
     meetingTheme?: string[];
 
+    @Column({ type: 'simple-array', nullable: true })
+    guests?: string[];
+
     setMeetingThemesFromString(themes: string) {
         this.meetingTheme = themes.split(',').map(theme => theme.trim());
     }
