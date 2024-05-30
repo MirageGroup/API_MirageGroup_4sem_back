@@ -56,6 +56,7 @@ export class MeetingServices {
         "virtualRoom.accessLevel",
         "meeting.meetingTheme",
         "participant",
+        "meeting.guests",
       ])
       .getMany();
 
