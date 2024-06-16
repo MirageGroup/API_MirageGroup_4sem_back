@@ -2,11 +2,13 @@ import { User } from 'infra/entities/user.entity';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
+import { Meeting } from '../infra/entities/meeting.entity';
 
 export class UserServices {
 
     public constructor(
-        private readonly userRepository: Repository<User>
+        private readonly userRepository: Repository<User>,
+        private readonly meetingRepository: Repository<Meeting>
     ){}
 
     public async getUserByEmail(email: string): Promise<User> {
@@ -66,5 +68,10 @@ export class UserServices {
 
     public async deleteUser(id: number) {
         return await this.userRepository.delete(id)
+    }
+
+    public async hasMeetings(userId: number): Promise<boolean> {
+        const count = await this.meetingRepository.count({ where: { participants: { id: userId } } });
+        return count > 0;
     }
 }
